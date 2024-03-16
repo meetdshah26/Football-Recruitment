@@ -1,5 +1,6 @@
 # Football-Recruitment-Platform
 This is a Node.js project aimed at creating a Football Recruitment platform. The platform consists of both an admin dashboard built with EJS and APIs for frontend interactions. It provides a comprehensive set of features to streamline the recruitment process for football teams, recruiters, and players.
+
 Features:
 1. Admin Dashboard:
 Category Management: Admins can manage different categories such as player positions, skill levels, etc.
@@ -17,7 +18,8 @@ Express.js: Web framework for Node.js.
 MongoDB: Database for storing categories, vacancies, recruiters, testimonials, etc.
 
 Getting Started:
-1.Clone the repository:
-2.Install dependencies:
-3.Set env file.
-4.Start the server
+
+1. Clone the repository.
+2. Install dependencies.
+3. Set env file.
+4. Start the server
