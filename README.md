@@ -15,6 +15,7 @@ Technologies Used:
 Node.js: Backend server environment.
 Express.js: Web framework for Node.js.
 MongoDB: Database for storing categories, vacancies, recruiters, testimonials, etc.
+
 Getting Started:
 1.Clone the repository:
 2.Install dependencies:
