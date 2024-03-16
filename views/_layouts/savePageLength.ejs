@@ -1,0 +1,18 @@
+<script>
+    $(document).ready(function() {
+        // Initialize DataTable
+        $('#page-length-option').on('page.dt', function() {
+            $(document).on('click', '.clickable-row', function() {
+                window.location.href = $(this).data("href");
+            });
+        }).DataTable({
+            stateSave: true,
+            stateSaveParams: function(settings, data) {
+                data.search.search = "";
+            },
+            responsive: true,
+            scrollX: true,
+            lengthMenu: [10, 25, 50, 100],
+        });
+    });
+</script>

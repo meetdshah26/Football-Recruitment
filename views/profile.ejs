@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+    <%- include('_layouts/head') %>
+    <title>Profile | <%= title %></title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
+</head>
+<!-- END: Head-->
+
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+    <%- include('_layouts/sidenavbar') %>
+
+    <!-- BEGIN: Page Main-->
+    <div id="main">
+        <div class="row">
+            <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col s12 m6 l6">
+                            <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/"><i class="material-icons">arrow_back</i></a><span>Profile</span></h5>
+                        </div>
+                        <div class="col s12 m6 l6 right-align-md">
+                            <ol class="breadcrumbs mb-0">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item active">Profile</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="container">
+                    <div class="section">
+                        <div class="row">
+                            <div class="col s12">
+                                <%- messages('messages', locals) %>
+                            </div>
+                        </div>
+                        <form method="POST" onsubmit="validate()" action="/profile" id="form" enctype="multipart/form-data">
+                            <div class="col s12">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="row">
+                                            <div class="input-field col s12">
+                                                <input placeholder="Email" id="email" name="email" type="text" value="<%= admin.email %>">
+                                                <label for="email">Email</label>
+                                                <small>
+                                                    <div id="errorEmail" class="error"></div>
+                                                </small>
+                                            </div>
+                                            <div class="input-field col s12">
+                                                Upload Avatar
+                                                <input type="file" accept="image/png, image/jpeg" name="image" id="input-file-now" class="dropify" data-disable-remove="true" data-default-file="<%= admin.photo %>" />
+                                                <small>
+                                                    <div id="errorImage" class="error"></div>
+                                                </small>
+                                            </div>
+                                            <div class="col s12">
+                                                <button type="submit" class="btn purple" id="submitBtn">Submit</button>
+                                                <a onclick="history.back()" class="btn btn-danger ml-1">Cancel</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="content-overlay"></div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Page Main-->
+
+    <%- include('_layouts/commonJs') %>
+    <script>
+        const form = document.getElementById('form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+        })
+
+        function validate() {
+            const emailValue = document.getElementById('email').value.trim();
+            const fileValue = document.getElementById('input-file-now').value;
+            const ext = fileValue.substring(fileValue.lastIndexOf('.') + 1).toLowerCase();
+
+            if (emailValue == '') {
+                setError('errorEmail', 'Please enter email.');
+                return;
+            } else if (!validateEmail(emailValue)) {
+                setError('errorEmail', 'Please enter valid email.');
+                return;
+            } else {
+                document.getElementById('errorEmail').innerText = '';
+            }
+
+            if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
+                document.getElementById('errorImage').innerText = '';
+            } else if (fileValue == '') {
+                document.getElementById('errorImage').innerText = '';
+            } else {
+                setError('errorImage', 'Wrong file type.');
+                return;
+            }
+
+            document.getElementById('submitBtn').disabled = true;
+            form.submit();
+        }
+
+        function setError(elementId, error) {
+            const element = document.getElementById(elementId)
+            element.innerText = error;
+            element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+            });
+        }
+
+        function validateEmail(email) {
+            return email.match(
+                /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+    <script src="/app-assets/js/scripts/form-file-uploads.min.js"></script>
+</body>
+
+</html>

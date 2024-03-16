@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+    <%- include('_layouts/head') %>
+    <title>Change Password | <%= title %></title>
+</head>
+<!-- END: Head-->
+
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+
+    <%- include('_layouts/sidenavbar') %>
+
+    <!-- BEGIN: Page Main-->
+    <div id="main">
+        <div class="row">
+            <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col s12 m6 l6">
+                            <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/"><i class="material-icons">arrow_back</i></a><span>Change Password</span></h5>
+                        </div>
+                        <div class="col s12 m6 l6 right-align-md">
+                            <ol class="breadcrumbs mb-0">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item active">Change Password</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12">
+                <div class="container">
+                    <div class="section section-data-tables">
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <%- messages('messages', locals) %>
+                                                <form method="POST" onsubmit="validate()" action="/changepass" id="form">
+                                                    <div class="input-field col m4 s12">
+                                                        <input class="password" placeholder="Current password" id="currentpass" name="currentpass" type="password">
+                                                        <small>
+                                                            <div id="error1" class="error"></div>
+                                                        </small>
+                                                        <label for="currentpass">Current Password</label>
+                                                    </div>
+                                                    <div class="input-field col m4 s12">
+                                                        <input class="password" placeholder="New password" id="newpass" name="newpass" type="password">
+                                                        <small>
+                                                            <div id="error2" class="error"></div>
+                                                        </small>
+                                                        <label for="newpass">New Password</label>
+                                                    </div>
+                                                    <div class="input-field col m4 s12">
+                                                        <input class="password" placeholder="Confirm password" id="cfnewpass" name="cfnewpass" type="password">
+                                                        <small>
+                                                            <div id="error3" class="error"></div>
+                                                        </small>
+                                                        <label for="cfnewpass">Confirm Password</label>
+                                                    </div>
+                                                    <div class="col s12 mb-2">
+                                                        <p>
+                                                            <label>
+                                                                <input id="showPassword" type="checkbox" onclick="togglePassword()">
+                                                                <span>Show Password</span>
+                                                            </label>
+                                                        </p>
+                                                    </div>
+                                                    <div class="input-field col mt-1 s12">
+                                                        <button type="submit" class="btn purple" id="submitBtn" style="margin-right: 10px;">Submit</button>
+                                                        <a onclick="history.back()" class="btn">Cancel</a>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-overlay"></div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Page Main-->
+
+    <script>
+        const formC = document.getElementById('form');
+        const currentpass = document.getElementById('currentpass');
+        const newpass = document.getElementById('newpass');
+        const cfnewpass = document.getElementById('cfnewpass');
+
+        formC.addEventListener('submit', (e) => {
+            e.preventDefault();
+        })
+
+        function validate() {
+            let returnVal = true;
+
+            const passValue = currentpass.value.trim();
+            const newpassValue = newpass.value.trim();
+            const cfpassValue = cfnewpass.value.trim();
+
+            if (passValue == '') {
+                document.getElementById('error1').innerText = 'Please enter current password.';
+                returnVal = false;
+            } else {
+                document.getElementById('error1').innerText = '';
+            }
+
+            if (newpassValue == '') {
+                document.getElementById('error2').innerText = 'Please enter new password.';
+                returnVal = false;
+            } else if (newpassValue.length < 8) {
+                document.getElementById('error2').innerText = 'Please enter more than 8 character.';
+                returnVal = false;
+            } else if (newpassValue == passValue) {
+                document.getElementById('error2').innerText = 'New password can not be same as current password.';
+                returnVal = false;
+            } else {
+                document.getElementById('error2').innerText = '';
+            }
+
+            if (cfpassValue == '') {
+                document.getElementById('error3').innerText = 'Please enter confirm password.';
+                returnVal = false;
+            } else if (cfpassValue != newpassValue) {
+                document.getElementById('error3').innerText = 'New password and confirm password do not match.';
+                returnVal = false;
+            } else {
+                document.getElementById('error3').innerText = '';
+            }
+
+            if (returnVal) {
+                document.getElementById('submitBtn').disabled = true;
+                formC.submit();
+            }
+        }
+
+        function togglePassword() {
+            const x = document.getElementsByClassName("password");
+
+            let type = x[0].type;
+            if (type === "password") {
+                type = "text";
+            } else {
+                type = "password";
+            }
+            for (let i = 0; i < x.length; i++) {
+                x[i].type = type;
+            }
+        }
+    </script>
+    <%- include('_layouts/commonJs') %>
+</body>
+
+</html>

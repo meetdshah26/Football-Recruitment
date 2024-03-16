@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+  <%- include('_layouts/head') %>
+  <title>Messages | <%= title %></title>
+  <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/select.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/data-tables.css">
+</head>
+<!-- END: Head-->
+
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+
+  <%- include('_layouts/sidenavbar') %>
+
+  <!-- BEGIN: Page Main-->
+  <div id="main">
+    <div class="row">
+      <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+        <!-- Search for small screen-->
+        <div class="container">
+          <div class="row">
+            <div class="col s12 m6 l6">
+              <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/"><i class="material-icons">arrow_back</i></a><span>Messages</span></h5>
+            </div>
+            <div class="col s12 m6 l6 right-align-md">
+              <ol class="breadcrumbs mb-0">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">User Messages</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col s12">
+        <div class="container">
+          <div class="section section-data-tables">
+            <!-- Page Length Options -->
+            <div class="row">
+              <div class="col s12">
+                <div class="card">
+                  <div class="card-content">
+                    <%- messages('messages', locals) %>
+                    <div class="row">
+                      <div class="col s12 overflow">
+                        <table id="page-length-option" class="display">
+                          <thead>
+                            <tr>
+                              <th>Sr</th>
+                              <th>Name</th>
+                              <th>Email</th>
+                              <th>Phone</th>
+                              <th>Message</th>
+                              <th>Date and Time</th>
+                              <th>View</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% for( let i=0; i < msgs.length; i++ ) { %>
+                            <tr>
+                              <td><%= i+1 %></td>
+                              <td><%= msgs[i].name %></td>
+                              <td><%= msgs[i].email %></td>
+                              <td><%= msgs[i].phone %></td>
+                              <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= msgs[i].message %></td>
+                              <td><%= msgs[i].date.toLocaleDateString(dateLocale, dateOptions) %></td>
+                              <td style="max-width: 50px;">
+                                <a href="/message_view/<%= msgs[i].id %>"><i class="material-icons">remove_red_eye</i></a>
+                                <a href="/message/delete/<%= msgs[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
+                              </td>
+                            </tr>
+                            <% } %>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content-overlay"></div>
+      </div>
+    </div>
+  </div>
+  <!-- END: Page Main-->
+
+  <%- include('_layouts/commonJs') %>
+  <script src="/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
+  <%- include('_layouts/savePageLength') %>
+</body>
+
+</html>

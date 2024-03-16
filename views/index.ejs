@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+  <%- include('_layouts/head') %>
+  <title>Dashboard | <%= title %></title>
+  <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/dashboard.css">
+</head>
+<!-- END: Head-->
+
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+
+  <%- include('_layouts/sidenavbar') %>
+
+  <!-- BEGIN: Page Main-->
+  <div id="main">
+    <div class="row">
+      <div class="col s12">
+        <div class="container">
+          <div class="section">
+            <!--card stats start-->
+            <div id="card-stats" class="pt-0">
+              <div class="row">
+                <%- messages('messages', locals) %>
+              </div>
+              <div class="row">
+                <a href="/user">
+                  <div class="col s12 m6 l6 xl3">
+                    <div class="card gradient-45deg-light-blue-cyan gradient-shadow min-height-100 white-text animate fadeLeft">
+                      <div class="padding-4">
+                        <div class="row">
+                          <div class="col s7 m7">
+                            <i class="material-icons background-round mt-5">person</i>
+                            <p>Users</p>
+                          </div>
+                          <div class="col s5 m5 right-align">
+                            <h5 class="mb-0 white-text"><%= user %></h5>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                <a href="/job">
+                  <div class="col s12 m6 l6 xl3">
+                    <div class="card gradient-45deg-green-teal gradient-shadow min-height-100 white-text animate fadeLeft">
+                      <div class="padding-4">
+                        <div class="row">
+                          <div class="col s7 m7">
+                            <i class="material-icons background-round mt-5">receipt</i>
+                            <p>Vacancies</p>
+                          </div>
+                          <div class="col s5 m5 right-align">
+                            <h5 class="mb-0 white-text"><%= totalJobs %></h5>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+
+                <!--card stats end-->
+                <div class="col s12 ">
+                  <div class="card">
+                    <div class="card-content">
+                      <div class="row">
+                        <h3 class="card-title">Recent Jobs</h3>
+                        <div class="col s12 overflow">
+                          <table class="striped">
+                            <thead>
+                              <tr>
+                                <th>Recruiter name</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>State</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <% for (let i = 0; i < job.length; i++) { %>
+                              <tr class="clickable-row" data-href="/job/<%= job[i].id %>" style="cursor: pointer;">
+                                <td><%= job[i].recruiter.recruiterName  %></td>
+                                <td><%= job[i].title  %></td>
+                                <td><%= job[i].category.name  %></td>
+                                <td><%= job[i].state  %></td>
+                              </tr>
+                              <% } %>
+                            </tbody>
+
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--end container-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END: Page Main-->
+    <%- include('_layouts/commonJs') %>
+    <script>
+      jQuery(document).ready(function($) {
+        $(".clickable-row").click(function() {
+          window.location = $(this).data("href");
+        });
+      });
+    </script>
+</body>
+
+</html>

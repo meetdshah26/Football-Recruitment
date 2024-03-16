@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+    <%- include('_layouts/head') %>
+    <title>404 Page not found | <%= title %></title>
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/page-404.css">
+</head>
+<!-- END: Head-->
+
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 1-column bg-full-screen-image blank-page blank-page" data-open="click" data-menu="vertical-dark-menu" data-col="1-column">
+    <div class="row">
+        <div class="col s12">
+            <div class="container">
+                <div class="section section-404 p-0 m-0 height-100vh">
+                    <div class="row">
+                        <div class="col s12 center-align white">
+                            <img src="/app-assets/images/gallery/error-2.png" class="bg-image-404" alt="">
+                            <h1 class="error-code m-0">404</h1>
+                            <h6 class="mb-2">Page not found!</h6>
+                            <button class="btn waves-effect waves-light gradient-45deg-deep-purple-blue z-depth-4 mb-4" onclick="history.back()">Go Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-overlay"></div>
+        </div>
+    </div>
+    <%- include('_layouts/commonJs') %>
+</body>
+
+</html>

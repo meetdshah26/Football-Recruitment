@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+    <%- include('_layouts/head') %>
+    <title>Media | <%= title %></title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
+</head>
+<!-- END: Head-->
+
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+    <%- include('_layouts/sidenavbar') %>
+
+    <!-- BEGIN: Page Main-->
+    <div id="main">
+        <div class="row">
+            <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col s12 m6 l6">
+                            <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/"><i class="material-icons">arrow_back</i></a><span>Media</span></h5>
+                        </div>
+                        <div class="col s12 m6 l6 right-align-md">
+                            <ol class="breadcrumbs mb-0">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item active">Media</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="container">
+                    <div class="section">
+                        <div class="row">
+                            <div class="col s12">
+                                <%- messages('messages', locals) %>
+                            </div>
+                        </div>
+                        <form method="POST" onsubmit="validate()" action="/media" id="form" enctype="multipart/form-data">
+                            <div class="col s12">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="row">
+                                            <div class="input-field col s12">
+                                                Upload Image
+                                                <input type="file" accept=".png, .jpg, .jpeg" name="image" id="input-file-now" class="dropify" data-disable-remove="true" multiple />
+                                                <small>
+                                                    <div id="error1" class="error" style="height: auto;"></div>
+                                                </small>
+                                            </div>
+                                            <div class="col s12">
+                                                <button type="submit" class="btn purple" id="submitBtn">Submit</button>
+                                                <a onclick="history.back()" class="btn btn-danger ml-1">Cancel</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="content-overlay"></div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Page Main-->
+
+    <script>
+        const form = document.getElementById('form');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+        })
+
+        function validate() {
+            const inputElement = document.getElementById('input-file-now');
+            const validationErrors = [];
+
+            if (inputElement.files.length === 0)
+                return document.getElementById('error1').innerHTML = "Please select at least one image.";
+
+            for (const file of inputElement.files) {
+                const validationResult = isValidImage(file);
+                if (validationResult !== true)
+                    validationErrors.push(validationResult);
+            }
+
+            if (validationErrors.length > 0) {
+                document.getElementById('error1').innerHTML = validationErrors.join('<br>');
+            } else {
+                document.getElementById('submitBtn').disabled = true;
+                form.submit();
+            }
+        }
+
+        function isValidImage(file) {
+            const allowedTypes = ['image/jpeg', 'image/png'];
+            const maxSize = 10 * 1024 * 1024; // 10 MB
+
+            if (!allowedTypes.includes(file.type))
+                return `${file.name} has an invalid file type.`;
+
+            if (file.size > maxSize)
+                return `${file.name} exceeds the maximum allowed file size of ${maxSize / (1024 * 1024)} MB.`;
+
+            return true;
+        }
+    </script>
+    <%- include('_layouts/commonJs') %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+    <script src="/app-assets/js/scripts/form-file-uploads.min.js"></script>
+</body>
+
+</html>

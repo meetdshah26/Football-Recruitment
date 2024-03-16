@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+    <%- include('_layouts/head') %>
+    <title>Reset Password | <%= title %></title>
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/login.css">
+</head>
+<!-- END:  -->
+
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 1-column login-bg blank-page blank-page" data-open="click" data-menu="vertical-dark-menu" data-col="1-column">
+    <div class="row">
+        <div class="col s12">
+            <div class="container">
+                <div id="login-page" class="row">
+                    <div class="col s12 m6 l4 z-depth-4 card-panel border-radius-6 login-card bg-opacity-8">
+                        <form class="login-form" id="form" action="/reset" method="post" onsubmit="return validate()">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <h5 class="ml-4">Reset Password</h5>
+                                </div>
+                            </div>
+                            <%- messages('messages', locals) %>
+                            <input type="text" name="adminId" value="<%= adminId %>" hidden>
+                            <div class="row margin">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix pt-2">access_time</i>
+                                    <input id="otp" type="text" name="otp" oninput="this.value = this.value.replace(/[^0-9]/g, '')" readonly onfocus="this.removeAttribute('readonly');"> <!-- readonly to stop auto fill email pass -->
+                                    <label for="otp" class="center-align">OTP</label>
+                                    <small>
+                                        <div id="error1" class="error" style="margin-left: 3rem;"></div>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="row margin">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix pt-2">lock_open</i>
+                                    <input class="password" id="password" type="password" name="password">
+                                    <label for="password" class="center-align">Password</label>
+                                    <small>
+                                        <div id="error2" class="error" style="margin-left: 3rem;"></div>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="row margin">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix pt-2">lock_outline</i>
+                                    <input class="password" id="passwordConfirm" type="password" name="passwordConfirm">
+                                    <label for="passwordConfirm" class="center-align">Confirm password</label>
+                                    <small>
+                                        <div id="error3" class="error" style="margin-left: 3rem;"></div>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m12 l12 ml-2">
+                                    <p>
+                                        <label>
+                                            <input id="showPassword" type="checkbox" onclick="togglePassword()">
+                                            <span>Show Password</span>
+                                        </label>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <button class="btn waves-effect waves-light border-round gradient-45deg-purple-deep-orange col s12" type="submit" id="submitBtn">Reset Password</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <p class="margin medium-small"><a href="/forgot">Reset password ?</a></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="content-overlay"></div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('form');
+
+        // form
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+        })
+
+        function validate() {
+            let returnVal = true;
+
+            const otp = document.getElementById('otp').value.trim();
+            const pass = document.getElementById('password').value.trim();
+            const cfPass = document.getElementById('passwordConfirm').value.trim();
+
+            if (otp == '') {
+                document.getElementById('error1').innerText = 'Please enter OTP.';
+                returnVal = false;
+            } else if (otp.length !== 6) {
+                document.getElementById('error1').innerText = 'Please enter only 6 digits.';
+                returnVal = false;
+            } else {
+                document.getElementById('error1').innerText = '';
+            }
+
+            if (pass == '') {
+                document.getElementById('error2').innerText = 'Please enter new password.';
+                returnVal = false;
+            } else if (pass.length < 8) {
+                document.getElementById('error2').innerText = 'Please enter more than 8 character.';
+                returnVal = false;
+            } else {
+                document.getElementById('error2').innerText = '';
+            }
+
+            if (cfPass == '') {
+                document.getElementById('error3').innerText = 'Please enter confirm password.';
+                returnVal = false;
+            } else if (cfPass != pass) {
+                document.getElementById('error3').innerText = 'New password and confirm password do not match.';
+                returnVal = false;
+            } else {
+                document.getElementById('error3').innerText = '';
+            }
+
+            if (returnVal) {
+                document.getElementById('submitBtn').disabled = true;
+                form.submit();
+            }
+        }
+
+        function togglePassword() {
+            const toggle = document.getElementById("showPassword");
+            const x = document.getElementsByClassName("password");
+
+            let type;
+            if (toggle.checked === true) {
+                type = "text";
+            } else {
+                type = "password";
+            }
+            for (let i = 0; i < x.length; i++) {
+                x[i].type = type;
+            }
+        }
+    </script>
+    <%- include('_layouts/commonJs') %>
+</body>
+
+</html>

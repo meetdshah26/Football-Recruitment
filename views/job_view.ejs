@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+  <%- include('_layouts/head') %>
+  <title>View Vacancy | <%= title %></title>
+  <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/select.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/data-tables.css">
+</head>
+<!-- END: Head-->
+
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+  <%- include('_layouts/sidenavbar') %>
+
+  <!-- BEGIN: Page Main-->
+  <div id="main">
+    <div class="row">
+      <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+        <div class="container">
+          <div class="row">
+            <div class="col s12 m6 l6">
+              <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" onclick="history.back()"><i class="material-icons">arrow_back</i></a><span>View Vacancy</span></h5>
+            </div>
+            <div class="col s12 m6 l6 right-align-md">
+              <ol class="breadcrumbs mb-0">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/job">Vacancy List</a></li>
+                <li class="breadcrumb-item active">View</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12">
+        <div class="container">
+          <div class="section section-data-tables">
+            <!-- Page Length Options -->
+            <div class="row">
+              <div class="col s12">
+                <%- messages('messages', locals) %>
+                <div class="card">
+                  <div class="card-content">
+                    <div class="row">
+                      <div class="col s12">
+                        <table class="display striped">
+                          <tbody>
+                            <tr>
+                              <th>Title</th>
+                              <td><%= job.title %></td>
+                            </tr>
+                            <tr>
+                              <th>Recruiter</th>
+                              <td><%= job.recruiter.recruiterName %></td>
+                            </tr>
+                            <tr>
+                              <th>Category</th>
+                              <td><%= job.category.name %></td>
+                            </tr>
+                            <tr>
+                              <th>Short description</th>
+                              <td><%= job.short_description %></td>
+                            </tr>
+                            <tr>
+                              <th>Salary</th>
+                              <td><%= job.salary %></td>
+                            </tr>
+                            <tr>
+                              <th>Job type</th>
+                              <td><%= job.job_type %></td>
+                            </tr>
+                            <tr>
+                              <th>Country</th>
+                              <td><%= job.country %></td>
+                            </tr>
+                            <tr>
+                              <th>State</th>
+                              <td><%= job.state %></td>
+                            </tr>
+                            <tr>
+                              <th>City</th>
+                              <td><%= job.city %></td>
+                            </tr>
+                            <tr>
+                              <th>Experience</th>
+                              <td><%= job.experience %></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <a onclick="history.back()" class="btn btn-danger mt-2" style="margin-left: 15px;">Back</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="card-content">
+                    <div class="row">
+                      <div class="col s12 mb-2">
+                        <h4 class="card-title" style="display: inline-block;">Applicants</h4>
+                      </div>
+                      <div class="col s12 overflow">
+                        <table id="page-length-option" class="display">
+                          <thead>
+                            <tr>
+                              <th>Sr</th>
+                              <th>Name</th>
+                              <th>Email</th>
+                              <th>Phone</th>
+                              <th>City</th>
+                              <th>State</th>
+                              <th>Country</th>
+                              <th>Resume</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% for (let i = 0; i < appliedJobs.length; i++) { %>
+                            <tr>
+                              <td><%= i + 1 %></td>
+                              <td><%= appliedJobs[i].user_id?.name || '-' %></td>
+                              <td><%= appliedJobs[i].user_id?.email || '-' %></td>
+                              <td><%= appliedJobs[i].user_id?.phone || '-' %></td>
+                              <td><%= appliedJobs[i].user_id?.city || '-' %></td>
+                              <td><%= appliedJobs[i].user_id?.state || '-' %></td>
+                              <td><%= appliedJobs[i].user_id?.country || '-' %></td>
+                              <td style="max-width: 70px;">
+                                <a href="<%= appliedJobs[i].resumePdf || '-' %>" target="_blank">
+                                  <i class="material-icons">insert_drive_file</i>
+                                </a>
+                              </td>
+                            </tr>
+                            <% } %>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content-overlay"></div>
+      </div>
+    </div>
+  </div>
+  <!-- END: Page Main-->
+
+  <%- include('_layouts/commonJs') %>
+  <script src="/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
+  <%- include('_layouts/savePageLength') %>
+  <script>
+    $(document).ready(function() {
+      $('.modal').modal();
+    });
+
+    const authForm = document.getElementById('authForm');
+    authForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+    })
+  </script>
+</body>
+
+</html>

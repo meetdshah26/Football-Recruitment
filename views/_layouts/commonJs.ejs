@@ -1,0 +1,24 @@
+<!-- BEGIN VENDOR JS-->
+<script src="/app-assets/js/vendors.min.js"></script>
+<!-- BEGIN VENDOR JS-->
+<!-- BEGIN THEME  JS-->
+<script src="/app-assets/js/plugins.js"></script>
+<script src="/app-assets/js/scripts/ui-alerts.js"></script>
+<!-- END THEME  JS-->
+<script>
+    // Function to close all alerts with the 'alert-auto-close' class after a specified delay (e.g., 5000 milliseconds or 5 seconds)
+    function autoCloseAlerts() {
+        const alerts = document.querySelectorAll('.alert-auto-close');
+        alerts.forEach(function(alert) {
+            setTimeout(function() {
+                alert.style.opacity = '0'; // Fade out the alert
+                setTimeout(function() {
+                    alert.style.display = 'none'; // Hide the alert after fading
+                }, 500);
+            }, 3000);
+        });
+    }
+
+    // Call the function to auto-close the alerts when the page loads
+    window.addEventListener('load', autoCloseAlerts);
+</script>

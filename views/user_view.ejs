@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+  <%- include('_layouts/head') %>
+  <title>User View | <%= title %></title>
+  <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/page-users.css">
+  <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/select.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/data-tables.css">
+</head>
+<!-- END: Head-->
+
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+
+  <%- include('_layouts/sidenavbar') %>
+
+  <!-- BEGIN: Page Main-->
+  <div id="main">
+    <div class="row">
+      <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+        <!-- Search for small screen-->
+        <div class="container">
+          <div class="row">
+            <div class="col s12 m6 l6">
+              <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/user"><i class="material-icons">arrow_back</i></a><span>User View</span></h5>
+            </div>
+            <div class="col s12 m6 l6 right-align-md">
+              <ol class="breadcrumbs mb-0">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/user">User</a></li>
+                <li class="breadcrumb-item active">User View</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col s12">
+        <div class="container">
+          <!-- users view start -->
+          <div class="section section-data-tables users-view">
+            <%- messages('messages', locals) %>
+            <!-- users view media object start -->
+            <div class="card-panel">
+              <div class="row">
+                <div class="col s12 m7">
+                  <div class="display-flex media">
+                    <div class="media-body">
+                      <h6 class="media-heading">
+                        <span class="users-view-name"><%= user.name %></span>
+                      </h6>
+                      <span>Email:</span>
+                      <span class="users-view-id"><%= user.email %></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- users view media object ends -->
+
+            <!-- users view card details start -->
+            <div class="card">
+              <div class="card-content">
+                <div class="row">
+                  <div class="col s12">
+                    <table class="striped">
+                      <tbody>
+                        <tr>
+                          <th style="width: 200px;">Name:</th>
+                          <td><%= user.name %></td>
+                        </tr>
+                        <tr>
+                          <th>E-mail:</th>
+                          <td><%= user.email %></td>
+                        </tr>
+                        <% if (user.phone) { %>
+                        <tr>
+                          <th>Phone:</th>
+                          <td><%= user.phone %></td>
+                        </tr>
+                        <% } %>
+                        <tr>
+                          <th>City:</th>
+                          <td><%= user.city %></td>
+                        </tr>
+                        <tr>
+                          <th>State:</th>
+                          <td><%= user.state %></td>
+                        </tr>
+                        <tr>
+                          <th>Country:</th>
+                          <td><%= user.country %></td>
+                        </tr>
+                        <tr>
+                          <th>Job Title:</th>
+                          <td>
+                            <%= user.jobTitle && user.jobTitle.length > 0
+                            ? user.jobTitle.map(x => x.name).join(', ')
+                            : '-' %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>Experience:</th>
+                          <td><%= user.experience !== undefined && user.experience !== null ? user.experience === 'Fresher' ? 'Fresher' :  user.experience + ' Year' : '-' %></td>
+                        </tr>
+                        <tr>
+                          <th>Date created:</th>
+                          <td><%= user.date.toLocaleDateString(dateLocale) %></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <a onclick="history.back()" class="btn btn-danger mt-2" style="margin-left: 15px;">Back</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Resumes section -->
+            <div class="card">
+              <div class="card-content">
+                <div class="row">
+                  <div class="col s12">
+                    <h5>Resumes</h5>
+                    <% if (user.resumes && user.resumes.length > 0) { %>
+                    <!-- Table for Resumes -->
+                    <table class="striped">
+                      <thead>
+                        <tr>
+                          <th>Resume Title</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% user.resumes.forEach((resume, index) => { %>
+                        <tr>
+                          <td><%= resume.resumeTitle %></td>
+                          <% if (resume.resumePdf) { %>
+                          <td>
+                            <a href="<%= resume.resumePdf %>" download="<%= resume.resumeTitle %>"><i class="material-icons">get_app</i></a>
+                          </td>
+                          <% } else { %>
+                          <td colspan="2">No document available for this resume.</td>
+                          <% } %>
+                        </tr>
+                        <% }); %>
+                      </tbody>
+                    </table>
+                    <% } else { %>
+                    <p>No resumes available for this user.</p>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END: Page Main-->
+
+  <%- include('_layouts/commonJs')  %>
+  <script src="/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var tabs = document.querySelectorAll('.tabs');
+      M.Tabs.init(tabs);
+    });
+  </script>
+</body>
+
+</html>

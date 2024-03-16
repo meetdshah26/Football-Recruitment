@@ -1,0 +1,157 @@
+<!-- BEGIN: Header-->
+<header class="page-topbar" id="header">
+    <div class="navbar navbar-fixed">
+        <nav class="navbar-main navbar-color nav-collapsible sideNav-lock navbar-light">
+            <div class="nav-wrapper">
+                <ul class="navbar-list right">
+                    <li>
+                        <a class="waves-effect waves-block waves-light profile-button" href="javascript:void(0);"
+                            data-target="profile-dropdown">
+                            <span class="avatar-status">
+                                <% if (typeof photo !='undefined' ) { %>
+                                    <img src="<%= photo %>" alt="avatar"
+                                        onerror="this.onerror=null; this.src='/uploads/default_user.jpg';">
+                                    <% } else { %>
+                                        <img src="/uploads/default_user.jpg" alt="avatar">
+                                        <% } %>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="dropdown-content" id="profile-dropdown">
+                    <li>
+                        <a class="grey-text text-darken-1" href="/profile"><i
+                                class="material-icons">person_outline</i>Profile</a>
+                    </li>
+                    <li>
+                        <a class="grey-text text-darken-1" href="/changepass"><i
+                                class="material-icons">lock_outline</i>Change Password</a>
+                    </li>
+                    <li>
+                        <a class="grey-text text-darken-1" href="/logout" onclick="return confirm('Are you sure?');"><i
+                                class="material-icons">keyboard_tab</i>Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
+<!-- END: Header-->
+<!-- BEGIN: SideNav-->
+<aside class="sidenav-main nav-expanded nav-lock nav-collapsible sidenav-dark sidenav-active-rounded">
+    <div class="brand-sidebar" style="background: #2c323f;">
+        <h1 class="logo-wrapper">
+            <a class="brand-logo darken-1" href="/">
+                <img class="hide-on-med-and-down " src="/app-assets/images/logo/logo3.png" alt="logo">
+                <!-- <img class="show-on-medium-and-down hide-on-med-and-up" src="/app-assets/images/logo/logo.png" alt="logo" /> -->
+                <!-- <span class="logo-text hide-on-med-and-down">Logo</span> -->
+            </a>
+        </h1>
+    </div>
+    <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out"
+        data-menu="menu-navigation" data-collapsible="accordion">
+        <li class="bold <%= url == '/' ? 'active' : '' %>">
+            <a class="waves-effect waves-cyan <%= url == '/' ? 'active' : '' %>" href="/">
+                <i class="material-icons">desktop_windows</i>
+                <span class="menu-title">Dashboard</span>
+            </a>
+        </li>
+
+        <li class="navigation-header">
+            <a class="navigation-header-text">manage</a>
+            <i class="navigation-header-icon material-icons">more_horiz</i>
+        </li>
+        <li class="bold <%= url.startsWith('/cms') ? 'active' : '' %>">
+            <a class="collapsible-header waves-effect waves-cyan" href="javascript:void(0);">
+                <i class="material-icons">content_paste</i>
+                <span class="menu-title">Content Pages</span>
+            </a>
+            <div class="collapsible-body">
+                <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+                    <li class="<%= url.startsWith('/cms/whoWeAre') ? 'active' : '' %>">
+                           <a class="<%= url == '/cms/whoWeAre' ? 'active' : '' %>" href="/cms/whoWeAre">
+                             <i class="material-icons">radio_button_unchecked</i>
+                             <span>Who We Are</span>
+                           </a>
+                    </li>
+                    <li class="<%= url.startsWith('/cms/privacy') ? 'active' : '' %>">
+                        <a class="<%= url == '/cms/privacy' ? 'active' : '' %>" href="/cms/privacy">
+                            <i class="material-icons">radio_button_unchecked</i>
+                            <span>Privacy notice</span>
+                        </a>
+                    </li>
+                    <li>
+                      <a class="<%= url.startsWith('/cms/terms') ? 'active' : '' %>" href="/cms/terms">
+                        <i class="material-icons">radio_button_unchecked</i>
+                        <span data-i18n="Blog">Terms & Conditions</span>
+                      </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="bold <%= url.startsWith('/banner') ? 'active' : '' %>">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/banner') ? 'active' : '' %>" href="/banner">
+                <i class="material-icons">collections</i>
+                <span class="menu-title">Banners</span>
+            </a>
+        </li>
+
+        <li class="bold <%= url.startsWith('/recruiter') ? 'active' : '' %>">
+                <a class="waves-effect waves-cyan <%= url.startsWith('/recruiter') ? 'active' : '' %>" href="/recruiter">
+                    <i class="material-icons">add_circle_outline</i>
+                    <span class="menu-title">Recruiter</span>
+                </a>
+        </li>
+
+        <li class="bold <%= url.startsWith('/category') ? 'active' : '' %>">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/category') ? 'active' : '' %>" href="/category">
+                <i class="material-icons">view_week</i>
+                <span class="menu-title">Categories</span>
+            </a>
+        </li>
+
+        <li class="bold <%= url.startsWith('/job') ? 'active' : '' %>">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/job') ? 'active' : '' %>" href="/job">
+               <i class="material-icons">assignment</i>
+               <span class="menu-title">Vacancies</span>
+            </a>
+        </li>
+
+        <li class="bold <%= url.startsWith('/title') ? 'active' : '' %>">
+          <a class="waves-effect waves-cyan <%= url.startsWith('/title') ? 'active' : '' %>" href="/title">
+            <i class="material-icons">title</i>
+            <span class="menu-title">Job Title</span>
+          </a>
+        </li>
+
+        <li class="bold <%= url.startsWith('/testimonial') ? 'active' : '' %>">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/testimonial') ? 'active' : '' %>" href="/testimonial">
+                <i class="material-icons">picture_in_picture</i>
+                <span class="menu-title">Testimonial</span>
+            </a>
+        </li>
+
+        <li class="bold <%= url.startsWith('/message') ? 'active' : '' %>">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/message') ? 'active' : '' %>" href="/message">
+                <i class="material-icons">contact_mail</i>
+                <span class="menu-title">User Messages</span>
+            </a>
+        </li>
+
+        <li class="navigation-header">
+            <a class="navigation-header-text">Users</a>
+            <i class="navigation-header-icon material-icons">more_horiz</i>
+        </li>
+        <li class="bold <%= url.startsWith('/user') ? 'active' : '' %>">
+            <a class="waves-effect waves-cyan <%= url.startsWith('/user') ? 'active' : '' %>" href="/user">
+                <i class="material-icons">person</i>
+                <span class="menu-title">User Management</span>
+            </a>
+        </li>
+
+    </ul>
+    <div class="navigation-background"></div><a
+        class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only"
+        href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
+</aside>

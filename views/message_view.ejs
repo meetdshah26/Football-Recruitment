@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+    <%- include('_layouts/head') %>
+    <title>Message View | <%= title %></title>
+</head>
+<!-- END: Head-->
+
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+    <%- include('_layouts/sidenavbar') %>
+
+    <!-- BEGIN: Page Main-->
+    <div id="main">
+        <div class="row">
+            <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col s12 m6 l6">
+                            <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/message"><i class="material-icons">arrow_back</i></a><span>Message view</span></h5>
+                        </div>
+                 
+                    </div>
+                </div>
+            </div>
+            <div class="col s12">
+                <div class="container">
+                    <div class="section section-data-tables">
+                        <!-- Page Length Options -->
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <table class="display striped">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <td><%= message.name %></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Email</th>
+                                                            <td><a style="color: inherit;" href="mailto:<%= message.email %>" target="_blank"><%= message.email %></a></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Phone</th>
+                                                            <td><%= message.phone %></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Message</th>
+                                                            <td><%= message.message %></td>
+                                                        </tr>
+                                                         <tr>
+                                                           <th>Date and Time</th>
+                                                            <td><%= message.date.toLocaleDateString(dateLocale, dateOptions) %></td>
+                                                         </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <a onclick="history.back()" class="btn btn-danger mt-2" style="margin-left: 15px;">Back</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-overlay"></div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Page Main-->
+
+    <%- include('_layouts/commonJs') %>
+</body>
+
+</html>

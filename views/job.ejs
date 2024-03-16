@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+  <%- include('_layouts/head') %>
+  <title> Vacancies | <%= title %></title>
+  <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/app-assets/vendors/data-tables/css/select.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/data-tables.css">
+</head>
+<!-- END: Head-->
+
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+
+  <%- include('_layouts/sidenavbar') %>
+
+  <!-- BEGIN: Page Main-->
+  <div id="main">
+    <div class="row">
+      <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+        <!-- Search for small screen-->
+        <div class="container">
+          <div class="row">
+            <div class="col s12 m6 l6">
+              <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/"><i class="material-icons">arrow_back</i></a><span>Vacancies</span></h5>
+            </div>
+            <div class="col s12 m6 l6 right-align-md">
+              <a class="btn gradient-45deg-purple-deep-orange pull-right btn-breadcrumbs" href="/job/add">Add</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col s12">
+        <div class="container">
+          <div class="section section-data-tables">
+            <!-- Page Length Options -->
+            <div class="row">
+              <div class="col s12">
+                <div class="card">
+                  <div class="card-content">
+                    <%- messages('messages', locals) %>
+                    <div class="row">
+                      <div class="col s12 overflow">
+                        <table id="page-length-option" class="display">
+                          <thead>
+                            <tr>
+                              <th>Sr</th>
+                              <th>Recruiter</th>
+                              <th>Title</th>
+                              <th>Posted-Date</th>
+                              <th>Set as Popular</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% for( let i=0; i < jobs.length; i++ ) { %>
+                            <tr>
+                              <td><%= i+1 %></td>
+                              <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= jobs[i].recruiter.recruiterName %></td>
+                              <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= jobs[i].title %></td>
+                              <td><%= jobs[i].createdAt.toLocaleDateString('en-US') %></td>
+
+                              <td class="switch">
+                                <form id="switchForm" action="/updateSwitchState" method="post">
+                                  <label>
+                                    <input id="<%= jobs[i].id %>" type="checkbox" <%= jobs[i].popular ? 'checked' : '' %> onchange="updateSwitchState('<%= jobs[i]._id %>')">
+                                    <span class="lever"></span>
+                                  </label>
+                                </form>
+                              </td>
+
+                              <td style="max-width: 70px;">
+                                <a href="/job/<%= jobs[i].id %>"><i class="material-icons">remove_red_eye</i></a>
+                                <a href="/job/edit/<%= jobs[i].id %>"><i class="material-icons">create</i></a>
+                                <a href="/job/delete/<%= jobs[i].id %>" onclick="return confirm('Are you sure?')"><i class="material-icons">delete</i></a>
+                              </td>
+                            </tr>
+                            <% } %>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content-overlay"></div>
+      </div>
+    </div>
+  </div>
+  <!-- END: Page Main-->
+
+  <%- include('_layouts/commonJs') %>
+  <script src="/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
+  <%- include('_layouts/savePageLength') %>
+  <script>
+    function updateSwitchState(jobId) {
+      // Get the current state of the switch
+      const switchCheckbox = document.getElementById(jobId);
+      const switchState = switchCheckbox.checked;
+      // Send an AJAX request to update the switch state in the database
+      fetch(`/updateSwitchState/${encodeURIComponent(jobId)}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          popular: switchState,
+        }),
+      });
+    }
+  </script>
+
+  <script>
+    jQuery(document).ready(function($) {
+      $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+      });
+    });
+  </script>
+</body>
+
+</html>

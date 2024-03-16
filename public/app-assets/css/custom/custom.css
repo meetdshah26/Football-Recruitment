@@ -1,0 +1,133 @@
+/*================================================================================
+	Item Name: Materialize - Material Design Admin Template
+	Version: 5.0
+	Author: PIXINVENT
+	Author URL: https://themeforest.net/user/pixinvent/portfolio
+================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN CSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+
+.overflow {
+    overflow-x: auto;
+}
+
+.myBadge {
+    /* display: inline-block; */
+    font-size: 15px;
+    height: 36px;
+    line-height: 36px;
+    letter-spacing: 0.5px;
+    padding: 0 2rem;
+    text-transform: capitalize;
+    border-radius: 150px;
+    color: rgba(0, 0, 0, 0.8);
+    font-weight: 700;
+}
+
+.fixHeightTA {
+    max-height: 95px;
+}
+
+@media only screen and (max-width: 600px) {
+    .btn-breadcrumbs {
+        margin-top: 1rem;
+    }
+
+    .btn {
+        padding: 0 1rem;
+    }
+}
+
+.breadcrumbs-title {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumbs-title a {
+    color: #fff;
+    cursor: pointer;
+}
+
+#page-length-option {
+    line-height: 0;
+}
+
+th {
+    color: black !important;
+    font-weight: bold !important;
+}
+
+#sortable .item {
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+#sortable .item:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}
+
+label {
+    color: black !important;
+}
+
+.select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice {
+    color: black !important;
+    background-color: #e4e4e4 !important;
+    font-weight: 500;
+}
+
+.select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice__remove {
+    color: black !important;
+}
+
+.select2-container--default .select2-results__group {
+    color: #5a5a5a;
+    padding: 10px !important;
+}
+
+::-webkit-input-placeholder {
+    /* WebKit, Blink, Edge */
+    color: #a6a6a6;
+}
+:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #a6a6a6;
+    opacity: 1;
+}
+::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #a6a6a6;
+    opacity: 1;
+}
+:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #a6a6a6;
+}
+::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: #a6a6a6;
+}
+
+::placeholder {
+    /* Most modern browsers support this now. */
+    color: #a6a6a6;
+}
+
+.alert-auto-close {
+    transition: opacity 0.5s ease-in-out, display 0.5s ease-in-out;
+}
+
+#profile-dropdown {
+    width: 230px !important;
+}

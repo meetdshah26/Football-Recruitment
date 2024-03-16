@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+  <%- include('_layouts/head') %>
+  <title>Add Recruiter | <%= title %></title>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
+</head>
+<!-- END: Head-->
+
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+  <%- include('_layouts/sidenavbar') %>
+
+  <!-- BEGIN: Page Main-->
+  <div id="main">
+    <div class="row">
+      <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+        <div class="container">
+          <div class="row">
+            <div class="col s12 m6 l6">
+              <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/recruiter"><i class="material-icons">arrow_back</i></a><span>Add Recruiter</span></h5>
+            </div>
+            <div class="col s12 m6 l6 right-align-md">
+              <ol class="breadcrumbs mb-0">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/recruiter">Recruiter</a></li>
+                <li class="breadcrumb-item active">Add Recruiter</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="">
+        <div class="container">
+          <div class="section">
+            <div class="row">
+              <div class="col s12">
+                <%- messages('messages', locals) %>
+              </div>
+            </div>
+            <form method="POST" onsubmit="validate()" action="/recruiter/add" id="form" enctype="multipart/form-data">
+              <div class="col s12">
+                <div class="card">
+                  <div class="card-content">
+                    <div class="row">
+                      <div class="input-field col m6 s12">
+                        <input placeholder="Recruiter name" id="recruiter" name="recruiter" type="text">
+                        <label for="recruiter">Recruiter name</label>
+                        <small>
+                          <div id="errorRecruiter" class="error"></div>
+                        </small>
+                      </div>
+
+                      <div class="input-field col m6 s12">
+                        <input placeholder="Company name" id="company" name="company" type="text">
+                        <label for="company">Company name</label>
+                        <small>
+                          <div id="errorCompany" class="error"></div>
+                        </small>
+                      </div>
+
+                      <div class="input-field col m6 s12">
+                        <input placeholder="Email" id="email" name="email" type="text">
+                        <label for="email">Email</label>
+                        <small>
+                          <div id="errorEmail" class="error"></div>
+                        </small>
+                      </div>
+
+                      <div class="input-field col m6 s12">
+                        <input placeholder="Location" id="location" name="location" type="text">
+                        <label for="location">Location</label>
+                        <small>
+                          <div id="errorLocation" class="error"></div>
+                        </small>
+                      </div>
+
+                      <div class="input-field col s12">
+                        Upload Image
+                        <input type="file" accept="image/png, image/jpeg" name="image" id="input-file-now" class="dropify" data-disable-remove="true" required />
+                        <small>
+                          <div id="errorImage" class="error"></div>
+                        </small>
+                      </div>
+                      
+                      <div class="col s12">
+                        <button type="submit" class="btn purple" id="submitBtn">Submit</button>
+                        <a onclick="history.back()" class="btn btn-danger ml-1">Cancel</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="content-overlay"></div>
+      </div>
+    </div>
+  </div>
+  <!-- END: Page Main-->
+
+  <script>
+    const formC = document.getElementById('form');
+
+    formC.addEventListener('submit', (e) => {
+      e.preventDefault();
+    })
+
+    function validate() {
+      let returnVal = true;
+
+      const recruiterValue = document.getElementById('recruiter').value.trim();
+      const companyValue = document.getElementById('company').value.trim();
+      const locationValue = document.getElementById('location').value.trim();
+      const fileValue = document.getElementById('input-file-now').value;
+      const ext = fileValue.substring(fileValue.lastIndexOf('.') + 1).toLowerCase();
+
+      if (fileValue == '') {
+        document.getElementById('errorImage').innerText = '';
+      } else if (ext == 'png' || ext == 'jpeg' || ext == 'jpg') {
+        document.getElementById('errorImage').innerText = '';
+      } else {
+        return setError('errorImage', 'Wrong file type.');
+      }
+
+      if (recruiterValue == '') {
+        document.getElementById('errorRecruiter').innerText = 'Please enter recruiter name.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorRecruiter').innerText = '';
+      }
+
+      if (companyValue == '') {
+        document.getElementById('errorCompany').innerText = 'Please enter company name.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorCompany').innerText = '';
+      }
+
+      if (locationValue == '') {
+        document.getElementById('errorLocation').innerText = 'Please enter location.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorLocation').innerText = '';
+      }
+
+      function setError(elementId, error) {
+        const element = document.getElementById(elementId)
+        element.innerText = error;
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }
+
+      if (returnVal) {
+        document.getElementById('submitBtn').disabled = true;
+        formC.submit();
+      }
+    }
+  </script>
+  <%- include('_layouts/commonJs') %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+  <script src="/app-assets/js/scripts/form-file-uploads.min.js"></script>
+</body>
+
+</html>

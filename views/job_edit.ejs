@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+  <%- include('_layouts/head') %>
+  <title>Edit Vacancy | <%= title %></title>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
+  <link rel="stylesheet" href="/app-assets/vendors/select2/select2-materialize.css" type="text/css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+</head>
+<!-- END: Head-->
+
+<body class="vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu preload-transitions 2-columns" data-open="click" data-menu="vertical-dark-menu" data-col="2-columns">
+  <%- include('_layouts/sidenavbar') %>
+
+  <!-- BEGIN: Page Main-->
+  <div id="main">
+    <div class="row">
+      <div id="breadcrumbs-wrapper" data-image="/app-assets/images/gallery/breadcrumb-bg.jpg">
+        <div class="container">
+          <div class="row">
+            <div class="col s12 m6 l6">
+              <h5 class="breadcrumbs-title mt-0 mb-0"><a class="mr-2" href="/job"><i class="material-icons">arrow_back</i></a><span>Edit Vacancy</span></h5>
+            </div>
+            <div class="col s12 m6 l6 right-align-md">
+              <ol class="breadcrumbs mb-0">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/job">Vacancies</a></li>
+                <li class="breadcrumb-item active">Edit</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="section">
+          <div class="row">
+            <div class="col s12">
+              <div class="card">
+                <div class="card-content">
+                  <div class="row">
+                    <%- messages('messages', locals) %>
+                    <form method="POST" onsubmit="validate()" action="/job/edit/<%= jobs.id %>" id="form">
+                      <div class="col s12 ">
+                       
+                        <div class="input-field col s12 m6">
+                          <select id="recruiter" name="recruiter" data-placeholder="Select a Recruiter...">
+                            <% recruiters.forEach(x => { %>
+                            <option value="<%= x._id %>" <%= x._id.equals(jobs.recruiter) ? 'selected' : '' %>><%= x.recruiterName %></option>
+                            <% }); %>
+                          </select>
+                          <label>Recruiter name</label>
+                        </div>
+
+                        <div class="input-field col m6 s12">
+                          <label for="title">Title</label>
+                          <input placeholder="Title" id="title" name="title" type="text" value="<%= jobs.title %>">
+                          <small>
+                            <div id="errorTitle" class="error"></div>
+                          </small>
+                        </div>
+
+                        <div class="input-field col m6 s12 mt-0">
+                          <label for="salary">Salary</label>
+                          <input placeholder="Salary" id="salary" name="salary" type="text" value="<%= jobs.salary %>">
+                          <small>
+                            <div id="errorSalary" class="error"></div>
+                          </small>
+                        </div>
+
+                        <div class="input-field col m6 s12 mt-0">
+                          <label for="experience">Experience</label>
+                          <input placeholder="Experience" id="experience" name="experience" type="text" value="<%= jobs.experience %>">
+                          <small>
+                            <div id="errorExperience" class="error"></div>
+                          </small>
+                        </div>
+
+                        <div class="input-field col s12 mt-0 m6">
+                          <select id="category" name="category" data-placeholder="Select a category...">
+                            <% categories.forEach(category => { %>
+                            <option value="<%= category._id %>" <%= category._id.equals(jobs.category) ? 'selected' : '' %>><%= category.name %></option>
+                            <% }); %>
+                          </select>
+                          <label>Category</label>
+                        </div>
+
+                        <div class="input-field col s12 mt-0 m6">
+                          <select id="workPlace" name="workPlace">
+                            <option value="Work from office" <%=jobs.work_place==='Work from office' ? 'selected' : '' %>>Work from office</option>
+                            <option value="Work from home" <%=jobs.work_place==='Work from home' ? 'selected' : '' %>>Work from home</option>
+                          </select>
+                          <label>Work Place</label>
+                        </div>
+
+                        <div class="input-field col s12 m6">
+                          <select id="job_type" name="job_type">
+                            <option value="Full time" <%=jobs.job_type==='Full time' ? 'selected' : '' %>>Full-time</option>
+                            <option value="Part time" <%=jobs.job_type==='Part time' ? 'selected' : '' %>>Part-time</option>
+                          </select>
+                          <label>Job Type</label>
+                        </div>
+
+                        <div class="input-field col s12 m6">
+                          <select id="popular" name="popular">
+                            <option value="true" <%=jobs.popular === true ? 'selected' : '' %>>True</option>
+                            <option value="false" <%=jobs.popular === false ? 'selected' : '' %>>False</option>
+                          </select>
+                          <label>Set as popular</label>
+                        </div>
+
+                        <div class="input-field col m4 s12 mt-0">
+                          <input placeholder="Country" id="country" name="country" type="text" value="<%= jobs.country %>">
+                          <label for="country">Country</label>
+                          <small>
+                            <div id="errorCountry" class="error"></div>
+                          </small>
+                        </div>
+
+                        <div class="input-field col m4 s12 mt-0">
+                          <input placeholder="State" id="state" name="state" type="text" value="<%= jobs.state %>">
+                          <label for="state">State</label>
+                          <small>
+                            <div id="errorState" class="error"></div>
+                          </small>
+                        </div>
+
+                        <div class="input-field col m4 s12 mt-0">
+                          <label for="city">City</label>
+                          <input placeholder="City" id="city" name="city" type="text" value="<%= jobs.city %>">
+                          <small>
+                            <div id="errorCity" class="error"></div>
+                          </small>
+                        </div>
+
+                        <div class="input-field col mt-0 mb-0 s12">
+                          <label for="short_description">Short Description</label>
+                          <textarea name="short_description" class="materialize-textarea" id="short_description" cols="30" rows="10" placeholder="Short Description"><%= jobs.short_description %></textarea>
+                          <small>
+                            <div id="errorDescription" class="error"></div>
+                          </small>
+                        </div>
+
+                        <div class="input-field col s12 mt-0">
+                          <small>Description</small>
+                          <textarea name="skill" class="form-control ta" id="ta2"><%= jobs.description %></textarea>
+                        </div>
+
+                        <button type="submit" class="btn purple ml-1" id="submitBtn">Submit</button>
+                        <a onclick="history.back()" class="btn btn-danger ml-1">Cancel</a>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content-overlay"></div>
+    </div>
+  </div>
+  </div>
+  <!-- END: Page Main-->
+
+  <%- include('_layouts/commonJs') %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+  <script src="/app-assets/js/scripts/form-file-uploads.min.js"></script>
+  <script src="/app-assets/vendors/select2/select2.full.min.js"></script>
+  <script src="/app-assets/js/scripts/form-select2.js"></script>
+  <script>
+    const formC = document.getElementById('form');
+
+    formC.addEventListener('submit', (e) => {
+      e.preventDefault();
+    })
+
+    function validate() {
+      let returnVal = true;
+
+      const titleValue = document.getElementById('title').value.trim();
+      const salaryValue = document.getElementById('salary').value.trim();
+      const experienceValue = document.getElementById('experience').value.trim();
+      const countryValue = document.getElementById('country').value.trim();
+      const stateValue = document.getElementById('state').value.trim();
+      const cityValue = document.getElementById('city').value.trim();
+
+      if (titleValue == '') {
+        document.getElementById('errorTitle').innerText = 'Please enter title.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorTitle').innerText = '';
+      }
+
+      if (salaryValue === '') {
+        document.getElementById('errorSalary').innerText = 'Please enter salary.';
+        returnVal = false;
+      } else if (isNaN(salaryValue)) {
+        document.getElementById('errorSalary').innerText = 'Please enter a numeric value for salary.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorSalary').innerText = '';
+      }
+
+      if (experienceValue == '') {
+        document.getElementById('errorExperience').innerText = 'Please enter experience.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorExperience').innerText = '';
+      }
+
+      if (countryValue == '') {
+        document.getElementById('errorCountry').innerText = 'Please enter country name.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorCountry').innerText = '';
+      }
+
+      if (stateValue == '') {
+        document.getElementById('errorState').innerText = 'Please enter state name.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorState').innerText = '';
+      }
+
+      if (cityValue == '') {
+        document.getElementById('errorCity').innerText = 'Please enter city name.';
+        returnVal = false;
+      } else {
+        document.getElementById('errorCity').innerText = '';
+      }
+
+      if (returnVal) {
+        document.getElementById('submitBtn').disabled = true;
+        formC.submit();
+      }
+    }
+  </script>
+  <!-- ===== ckeditor JavaScript ===== -->
+  <script src="//cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
+  <script>
+    $(function() {
+      const elements = $('textarea.ta').get();
+      Object.keys(elements).forEach(i => {
+        CKEDITOR.replace(elements[i].id, {
+          filebrowserUploadUrl: '/upload',
+          format_tags: 'p;h1;h2;h3;h4;h5;h6'
+        });
+      });
+
+      if ($("[data-fancybox]").length) {
+        $("[data-fancybox]").fancybox();
+      }
+    });
+  </script>
+</body>
+
+</html>
